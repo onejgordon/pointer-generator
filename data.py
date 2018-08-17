@@ -57,13 +57,10 @@ class Vocab(object):
     with open(vocab_file, 'r', encoding='utf8') as vocab_f: #New : add the utf8 encoding to prevent error
       for line in vocab_f:
         pieces = line.split()
-        if len(pieces) != 1: #New : before it was 2, don't know why
-
+        if len(pieces) != 2:
           print('Warning: incorrectly formatted line in vocabulary file: %s\n' % line)
-          w = ' '.join(pieces) #New // bad formated words are numbers that were taken as list when splitted
-          #continue New // I wan to add this word to the vocab too
-        else: #New
-          w = pieces[0]
+          continue
+        w = pieces[0]
         if w in [SENTENCE_START, SENTENCE_END, UNKNOWN_TOKEN, PAD_TOKEN, START_DECODING, STOP_DECODING]:
           raise Exception('<s>, </s>, [UNK], [PAD], [START] and [STOP] shouldn\'t be in the vocab file, but %s is' % w)
         if w in self._word_to_id:
